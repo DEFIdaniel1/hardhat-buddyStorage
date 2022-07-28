@@ -22,7 +22,7 @@ contract SimpleStorage {
 
 	mapping(string => uint256) public nameToNumber;
 
-	People public person = People({number: 989, name: "Baby Billy"});
+	People public person = People({number: 989, name: 'Baby Billy'});
 
 	People[] public people;
 

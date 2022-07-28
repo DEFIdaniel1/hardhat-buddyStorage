@@ -1,10 +1,8 @@
-const { ethers, run, network } = require("hardhat")
+const { ethers, run, network } = require('hardhat')
 
 async function main() {
-	const simpleStorageFactory = await ethers.getContractFactory(
-		"SimpleStorage"
-	)
-	console.log("Deploying contract...")
+	const simpleStorageFactory = await ethers.getContractFactory('SimpleStorage')
+	console.log('Deploying contract...')
 	const simpleStorage = await simpleStorageFactory.deploy()
 	await simpleStorage.deployed()
 	console.log(`deployed contract to address: ${simpleStorage.address}`)
@@ -19,20 +17,27 @@ async function main() {
 	await changeValue.wait(1)
 	const updatedValue = await simpleStorage.retrieveNumber()
 	console.log(`new value is: ${updatedValue}`)
+
+	const addBabyBilly = await simpleStorage.addBabyBilly()
+	await addBabyBilly.wait(1)
+	const isItBaby = await simpleStorage.people(0)
+	const babyName = await isItBaby.name
+	console.log(isItBaby)
+	console.log(babyName)
 }
 
 //args are needed for constructors - not needed for this contract
 async function verify(contractAddress, args) {
 	try {
-		console.log("verifying...")
-		await run("verify:verify", {
+		console.log('verifying...')
+		await run('verify:verify', {
 			address: contractAddress,
 			costructorArguments: args,
 		})
-		console.log("verification complete")
+		console.log('verification complete')
 	} catch (e) {
-		if (e.message.toLowerCase().includes("already verified")) {
-			console.log("Already verified")
+		if (e.message.toLowerCase().includes('already verified')) {
+			console.log('Already verified')
 		} else {
 			console.log(e)
 		}
