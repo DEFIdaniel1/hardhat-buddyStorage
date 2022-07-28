@@ -1,4 +1,4 @@
-const { ethers } = require("hardhat")
+const { ethers, run, network } = require("hardhat")
 
 async function main() {
 	const simpleStorageFactory = await ethers.getContractFactory(
@@ -8,6 +8,35 @@ async function main() {
 	const simpleStorage = await simpleStorageFactory.deploy()
 	await simpleStorage.deployed()
 	console.log(`deployed contract to address: ${simpleStorage.address}`)
+	if (network.config.chainId != 31337 && process.env.ETHERSCAN_API) {
+		await simpleStorage.deployTransaction.wait(6)
+		await verify(simpleStorage.address, [])
+	}
+
+	const currentValue = await simpleStorage.retrieveNumber()
+	console.log(`first value is: ${currentValue}`)
+	const changeValue = await simpleStorage.store(12354)
+	await changeValue.wait(1)
+	const updatedValue = await simpleStorage.retrieveNumber()
+	console.log(`new value is: ${updatedValue}`)
+}
+
+//args are needed for constructors - not needed for this contract
+async function verify(contractAddress, args) {
+	try {
+		console.log("verifying...")
+		await run("verify:verify", {
+			address: contractAddress,
+			costructorArguments: args,
+		})
+		console.log("verification complete")
+	} catch (e) {
+		if (e.message.toLowerCase().includes("already verified")) {
+			console.log("Already verified")
+		} else {
+			console.log(e)
+		}
+	}
 }
 
 main()

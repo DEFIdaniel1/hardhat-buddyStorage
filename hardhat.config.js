@@ -1,17 +1,22 @@
 require("@nomicfoundation/hardhat-toolbox")
 require("dotenv").config()
+require("@nomiclabs/hardhat-etherscan")
 
 const RINKEBY_URL = process.env.RINKEBY_URL
-const RINKEBY_PRIVATE_KEY = process.env.RINKEBY_PRIVATE_KEY
+const PRIVATE_KEY = process.env.PRIVATE_KEY
+const ETHERSCAN_API = process.env.ETHERSCAN_API
 
 module.exports = {
 	defaultNetwork: "hardhat",
 	networks: {
 		rinkeby: {
 			url: RINKEBY_URL,
-			accounts: [RINKEBY_PRIVATE_KEY],
+			accounts: [PRIVATE_KEY],
 			chainId: 4,
 		},
+	},
+	etherscan: {
+		apiKey: ETHERSCAN_API,
 	},
 	solidity: "0.8.7",
 }
