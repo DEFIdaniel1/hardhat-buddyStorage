@@ -18,12 +18,12 @@ async function main() {
 	const updatedValue = await simpleStorage.retrieveNumber()
 	console.log(`new value is: ${updatedValue}`)
 
-	const addBabyBilly = await simpleStorage.addBabyBilly()
-	await addBabyBilly.wait(1)
-	const isItBaby = await simpleStorage.people(0)
-	const babyName = await isItBaby.name
-	console.log(isItBaby)
-	console.log(babyName)
+	// const addBabyBilly = await simpleStorage.addBabyBilly()
+	// await addBabyBilly.wait(1)
+	// const isItBaby = await simpleStorage.people(0)
+	// const babyName = await isItBaby.name
+	// console.log(isItBaby)
+	// console.log(babyName)
 }
 
 //args are needed for constructors - not needed for this contract
